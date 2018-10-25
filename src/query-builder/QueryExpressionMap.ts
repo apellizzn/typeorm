@@ -78,6 +78,11 @@ export class QueryExpressionMap {
     onIgnore: string | boolean = false;
 
     /**
+     * Optional on update raw statement used in insertion query in databases.
+     */
+    onUpdateRaw: string;
+
+    /**
      * Optional on update statement used in insertion query in databases.
      */
     onUpdate: { columns?: string, conflict?: string };
@@ -380,6 +385,7 @@ export class QueryExpressionMap {
         map.onConflict = this.onConflict;
         map.onIgnore = this.onIgnore;
         map.onUpdate = this.onUpdate;
+        map.onUpdateRaw = this.onUpdateRaw;
         map.joinAttributes = this.joinAttributes.map(join => new JoinAttribute(this.connection, this, join));
         map.relationIdAttributes = this.relationIdAttributes.map(relationId => new RelationIdAttribute(this, relationId));
         map.relationCountAttributes = this.relationCountAttributes.map(relationCount => new RelationCountAttribute(this, relationCount));

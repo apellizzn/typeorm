@@ -235,6 +235,14 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
     }
 
     /**
+     * Adds additional update raw statement supported in databases.
+     */
+    orUpdateRaw(statement: string): this {
+        this.expressionMap.onUpdateRaw = statement;
+        return this;
+    }
+
+    /**
      * Adds additional update statement supported in databases.
      */
     orUpdate(statement?: { columns?: string[], conflict_target?: string | string[] }): this {
@@ -298,6 +306,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
             query += `${this.expressionMap.onConflict ? " ON CONFLICT " + this.expressionMap.onConflict : ""}`
         } else if (this.connection.driver instanceof MysqlDriver) {
             query+= `${this.expressionMap.onUpdate ? " ON DUPLICATE KEY UPDATE " + this.expressionMap.onUpdate.columns : ""}`;
+            query+= `${this.expressionMap.onUpdateRaw ? " ON DUPLICATE KEY UPDATE " + this.expressionMap.onUpdateRaw : ""}`;
         }
 
         // add RETURNING expression
